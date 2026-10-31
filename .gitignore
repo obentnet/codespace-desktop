@@ -1,0 +1,4 @@
+/browser-data/
+*.zip
+.DS_Store
+**/.DS_Store

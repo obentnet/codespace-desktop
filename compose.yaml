@@ -1,0 +1,20 @@
+name: codespaces-chrome
+
+services:
+  chrome:
+    image: lscr.io/linuxserver/chrome:latest
+    environment:
+      PUID: "${CHROME_PUID:-1000}"
+      PGID: "${CHROME_PGID:-1000}"
+      TZ: Asia/Shanghai
+      LC_ALL: zh_CN.UTF-8
+    ports:
+      - "127.0.0.1:3000:3000"
+    volumes:
+      - type: bind
+        source: ./browser-data
+        target: /config
+        bind:
+          create_host_path: false
+    shm_size: "1gb"
+    restart: unless-stopped

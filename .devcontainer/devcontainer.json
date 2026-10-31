@@ -1,0 +1,24 @@
+{
+  "name": "Cloud Chrome",
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu24.04",
+  "features": {
+    "ghcr.io/devcontainers/features/docker-in-docker:4": {}
+  },
+  "remoteUser": "vscode",
+  "forwardPorts": [3000],
+  "portsAttributes": {
+    "3000": {
+      "label": "Cloud Chrome",
+      "protocol": "http",
+      "onAutoForward": "openBrowser"
+    }
+  },
+  "otherPortsAttributes": {
+    "onAutoForward": "ignore"
+  },
+  "postStartCommand": "bash scripts/start.sh",
+  "hostRequirements": {
+    "cpus": 2,
+    "memory": "8gb"
+  }
+}
