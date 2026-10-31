@@ -1,6 +1,8 @@
 {
   "name": "Cloud Chrome",
-  "image": "mcr.microsoft.com/devcontainers/base:ubuntu24.04",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
   "features": {
     "ghcr.io/devcontainers/features/docker-in-docker:4": {}
   },
@@ -10,7 +12,7 @@
     "3000": {
       "label": "Cloud Chrome",
       "protocol": "http",
-      "onAutoForward": "openBrowser"
+      "onAutoForward": "silent"
     }
   },
   "otherPortsAttributes": {

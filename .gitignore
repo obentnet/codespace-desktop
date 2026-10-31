@@ -1,4 +1,6 @@
 /browser-data/
+/proxy.json
+__pycache__/
 *.zip
 .DS_Store
 **/.DS_Store

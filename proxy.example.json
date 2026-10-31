@@ -1,0 +1,7 @@
+{
+  "server": "",
+  "port": 1080,
+  "username": "",
+  "password": "",
+  "connect_timeout_seconds": 15
+}

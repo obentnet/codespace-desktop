@@ -1,0 +1,10 @@
+{
+  "ProxySettings": {
+    "ProxyMode": "fixed_servers",
+    "ProxyServer": "socks5://127.0.0.1:1080",
+    "ProxyBypassList": "<-loopback>"
+  },
+  "QuicAllowed": false,
+  "DnsOverHttpsMode": "off",
+  "WebRtcIPHandling": "disable_non_proxied_udp"
+}

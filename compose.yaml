@@ -1,20 +1,70 @@
 name: codespaces-chrome
 
 services:
+  gateway:
+    image: codespaces-chrome-gateway:local
+    build: ./gateway
+    cap_drop:
+      - ALL
+    cap_add:
+      - DAC_OVERRIDE
+      - NET_ADMIN
+      - SETUID
+      - SETGID
+    security_opt:
+      - no-new-privileges:true
+    read_only: true
+    tmpfs:
+      - /tmp:rw,noexec,nosuid,size=16m,mode=1777
+    sysctls:
+      net.ipv6.conf.all.disable_ipv6: "1"
+      net.ipv6.conf.default.disable_ipv6: "1"
+    dns:
+      - 127.0.0.1
+    ports:
+      - "127.0.0.1:3000:3000"
+    volumes:
+      - type: bind
+        source: ./proxy.json
+        target: /run/secrets/proxy.json
+        read_only: true
+        bind:
+          create_host_path: false
+    healthcheck:
+      test: ["CMD", "python3", "/app/healthcheck.py"]
+      interval: 30s
+      timeout: 20s
+      retries: 2
+      start_period: 20s
+    restart: "no"
+
   chrome:
     image: lscr.io/linuxserver/chrome:latest
+    depends_on:
+      gateway:
+        condition: service_healthy
+        restart: true
+    network_mode: service:gateway
+    cap_drop:
+      - NET_ADMIN
+      - NET_RAW
+      - SYS_ADMIN
     environment:
       PUID: "${CHROME_PUID:-1000}"
       PGID: "${CHROME_PGID:-1000}"
       TZ: Asia/Shanghai
       LC_ALL: zh_CN.UTF-8
-    ports:
-      - "127.0.0.1:3000:3000"
     volumes:
       - type: bind
         source: ./browser-data
         target: /config
         bind:
           create_host_path: false
+      - type: bind
+        source: ./chrome/policies.json
+        target: /etc/opt/chrome/policies/managed/forced-proxy.json
+        read_only: true
+        bind:
+          create_host_path: false
     shm_size: "1gb"
-    restart: unless-stopped
+    restart: "no"
